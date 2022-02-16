@@ -1,8 +1,8 @@
 # Личный проект «Кексобукинг»
 
-* Студент: [Сергей Долгушин](https://up.htmlacademy.ru/javascript/25/user/2024731).
+* Студент: [Сергей Долгушин](https://htmlacademy.ru/profile/id2024731).
 
-* Наставник: Артём Рудов.
+* Наставник: [Артём Рудов](https://htmlacademy.ru/profile/id345377).
 
 ---
 
