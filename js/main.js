@@ -92,3 +92,5 @@ function makeKeysAdverts(...keysFields) {
     }
   });
 }
+
+makeKeysAdverts();
