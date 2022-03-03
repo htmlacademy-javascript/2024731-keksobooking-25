@@ -1,6 +1,10 @@
 import {getRandomInteger, getRandomFloat, shuffle} from './random-functons.js';
 
-const arrayPhotosId = shuffle(Array.from({ length: 10 }, (v, k) => k + 1));
+const lenghtAarrayPhotosId = 10;
+const minTimeInterval = 0;
+const minBorderOfFeaturesArray = 0;
+const minBorderOfHouseTypesArray = 0;
+const arrayPhotosId = shuffle(Array.from({ length: lenghtAarrayPhotosId }, (index, value) => value + 1));
 const arrayOfAdverts = [];
 const arrayTimeCheckInOut = ['12:00', '13:00', '14:00'];
 const houseTypes = ['palace', 'flat', 'house', 'bungalow','hotel'];
@@ -26,43 +30,24 @@ const arrayDescriptions = [
   'Бассейн, сауна, место для проведения вечеринок'
 ];
 
-const coordinates = (coordId, coordType, coordMin, coordMax, precision) => {
-  arrayOfAdverts[coordId].location[coordType] = getRandomFloat(coordMin, coordMax, precision);
-};
+const makeRandCoordinates = (coordMin, coordMax, precision) => getRandomFloat(coordMin, coordMax, precision);
 
-const checkInOutTimes = (offerdId, checkInOut, timeInterval) => {
-  arrayOfAdverts[offerdId].offer[checkInOut] = timeInterval[getRandomInteger(0, timeInterval.length-1)];
-};
+const checkInOutTimes = (timeInterval) => timeInterval[getRandomInteger(minTimeInterval, timeInterval.length-1)];
 
-const makeRandomNumbersFileds = (offerdId, keysType, min, max) => {
-  arrayOfAdverts[offerdId].offer[keysType] = getRandomInteger(min, max);
-};
+const makeRandomNumbersFileds = (min, max) => getRandomInteger(min, max);
 
-const chooseHouseType = (offerdId, houseType, keysType = 'type') => {
-  arrayOfAdverts[offerdId].offer[keysType] = houseType[getRandomInteger(0, houseType.length-1)];
-};
+const chooseHouseType = (houseType) => houseType[getRandomInteger(minBorderOfHouseTypesArray, houseType.length-1)];
 
-const chooseRandomOfItems = (offerdId, keysType, featuresType) => {
-  arrayOfAdverts[offerdId].offer[keysType] = featuresType.slice(getRandomInteger(1, featuresType.length-1));
-};
+const chooseRandomOfItems = (featuresType) => featuresType.slice(getRandomInteger(1, featuresType.length-1));
 
-const makeAddress = (offerdId, keysType = 'address') => {
-  arrayOfAdverts[offerdId].offer[keysType] = `${arrayOfAdverts[offerdId].location.lat}, ${arrayOfAdverts[offerdId].location.lng}`;
-};
+const makeAddress = (offerdId) => `${arrayOfAdverts[offerdId].location.lat}, ${arrayOfAdverts[offerdId].location.lng}`;
 
-const makePhotosLink = (autorID) => {
-  arrayOfAdverts[autorID]['autor'] = {};
-  arrayOfAdverts[autorID].autor['avatar'] = `img/avatars/user${arrayPhotosId[autorID].toString().padStart(2,0)}.png`;
-};
+const makePhotosLink = (autorID) => `img/avatars/user${arrayPhotosId[autorID].toString().padStart(2,0)}.png`;
 
-const chooseTitle = (offerdId, featuresType, keysType = 'title') => {
-  arrayOfAdverts[offerdId].offer[keysType] = `${featuresType[getRandomInteger(0, featuresType.length-1)]}`;
-};
+const chooseTitle = (featuresType) => `${featuresType[getRandomInteger(minBorderOfFeaturesArray, featuresType.length-1)]}`;
 
-const chooseDescription = (offerdId, featuresType, keysType = 'description') => {
-  arrayOfAdverts[offerdId].offer[keysType] = `${featuresType[getRandomInteger(0, featuresType.length-3)]}.
+const chooseDescription = (featuresType) => `${featuresType[getRandomInteger(minBorderOfFeaturesArray, featuresType.length-3)]}.
   ${featuresType[getRandomInteger(2, featuresType.length-1)]}`;
-};
 
 function makeKeysAdverts(...keysFields) {
   for (let i = 0; i < 10; i++) {
@@ -72,27 +57,38 @@ function makeKeysAdverts(...keysFields) {
     for (let i = 0; i < 10; i++) {
       arrayOfAdverts[i][keysField] = {};
       if (keysField === 'offer') {
-        checkInOutTimes(i, 'checkin', arrayTimeCheckInOut);
-        checkInOutTimes(i, 'checkout', arrayTimeCheckInOut);
-        makeRandomNumbersFileds(i, 'guests', 1, 10);
-        makeRandomNumbersFileds(i, 'rooms', 1, 20);
-        makeRandomNumbersFileds(i, 'price', 1000, 10000);
-        chooseHouseType(i, houseTypes);
-        chooseRandomOfItems(i, 'features', features);
-        chooseRandomOfItems(i, 'photos', arrayPhotos);
-        makeAddress(i);
-        chooseTitle(i, arrayTitles);
-        chooseDescription(i, arrayDescriptions);
+        const minNumberGuests = 1;
+        const maxNumberGuests = 10;
+        const minNumberRooms = 1;
+        const maxNumberRooms = 20;
+        const minPrice = 1000;
+        const maxPrice = 10000;
+        arrayOfAdverts[i].offer['checkin'] = checkInOutTimes(arrayTimeCheckInOut);
+        arrayOfAdverts[i].offer['checkout'] = checkInOutTimes(arrayTimeCheckInOut);
+        arrayOfAdverts[i].offer['guests'] = makeRandomNumbersFileds(minNumberGuests, maxNumberGuests);
+        arrayOfAdverts[i].offer['rooms'] = makeRandomNumbersFileds(minNumberRooms, maxNumberRooms);
+        arrayOfAdverts[i].offer['price'] = makeRandomNumbersFileds(minPrice, maxPrice);
+        arrayOfAdverts[i].offer['type'] = chooseHouseType(houseTypes);
+        arrayOfAdverts[i].offer['features'] = chooseRandomOfItems(features);
+        arrayOfAdverts[i].offer['photos'] = chooseRandomOfItems(arrayPhotos);
+        arrayOfAdverts[i].offer['address'] = makeAddress(i);
+        arrayOfAdverts[i].offer['title'] = chooseTitle(i, arrayTitles);
+        arrayOfAdverts[i].offer['description'] = chooseDescription(arrayDescriptions);
       }
       if (keysField === 'location') {
-        coordinates(i, 'lat', 35.65000, 35.70000, 5);
-        coordinates(i, 'lng', 139.70000, 139.80000, 5);
+        const precisionOfCoordinates = 5;
+        const latMin = 35.65000;
+        const latMax = 35.70000;
+        const lngMin = 139.70000;
+        const lngMax = 139.80000;
+
+        arrayOfAdverts[i].location['lat'] = makeRandCoordinates(latMin, latMax, precisionOfCoordinates);
+        arrayOfAdverts[i].location['lng'] = makeRandCoordinates(lngMin, lngMax, precisionOfCoordinates);
       }
       if (keysField === 'autor') {
-        makePhotosLink(i);
+        arrayOfAdverts[i]['autor'] = {};
+        arrayOfAdverts[i].autor['avatar'] =  makePhotosLink(i);
       }
     }
   });
 }
-
-makeKeysAdverts('location', 'autor', 'offer');
