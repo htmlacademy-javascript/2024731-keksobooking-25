@@ -1,9 +1,9 @@
-export function getRandomInteger(min, max) {
+function getRandomInteger(min, max) {
 
   return (min < max) ? Math.round(Math.random() * (max - min) + min) : -1;
 }
 
-export function getRandomFloat(min, max, decimalPlace) {
+function getRandomFloat(min, max, decimalPlace) {
   if (min < max) {
     const randomNumber = Math.random() * (max - min) + min;
     const precision = 10 ** decimalPlace;
@@ -15,7 +15,7 @@ export function getRandomFloat(min, max, decimalPlace) {
 }
 
 // перемешивание элементов в массиве
-export function shuffle(arr){
+function shuffle(arr){
   for(let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     const temp = arr[j];
@@ -25,3 +25,25 @@ export function shuffle(arr){
 
   return arr;
 }
+
+function translateHouseType(obj,count) {
+  switch(obj[count].offer.type) {
+    case 'palace':
+
+      return 'Дворец';
+    case 'flat':
+
+      return 'Квартира';
+    case 'house':
+
+      return 'Дом';
+    case 'bungalow':
+
+      return 'Бунгало';
+    case 'hotel':
+
+      return 'Отель';
+  }
+}
+
+export {getRandomInteger, getRandomFloat, shuffle, translateHouseType};
