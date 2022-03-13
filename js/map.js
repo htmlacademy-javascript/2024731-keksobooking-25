@@ -1,4 +1,3 @@
-// объявление пользовательской метки
 const advertIcon = L.divIcon({className: 'myicon', iconSize: [40, 40]});
 const basicIcon = L.divIcon({className: 'myicon-1', iconSize: [52, 52]});
 

@@ -81,7 +81,7 @@ function makeTestData(count) {
       features: chooseRandomOfItems(features),
       photos: chooseRandomOfItems(arrayPhotos),
       address: makeAddress(addressLat, addressLng),
-      title: chooseTitle(count, arrayTitles),
+      title: chooseTitle(arrayTitles),
       description: chooseDescription(arrayDescriptions),
     }
   };
