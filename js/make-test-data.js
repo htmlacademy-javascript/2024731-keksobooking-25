@@ -65,23 +65,23 @@ function makeTestData(count) {
 
   return {
     author: {
-      avatar: makePhotosLink(count),
+      avatar:     makePhotosLink(count),
     },
     location: {
-      lat: addressLat,
-      lng: addressLng
+      lat:        addressLat,
+      lng:        addressLng
     },
     offer: {
-      checkin: checkInOutTimes(arrayTimeCheckInOut),
-      checkout: checkInOutTimes(arrayTimeCheckInOut),
-      guests: makeRandomNumbersFileds(minNumberGuests, maxNumberGuests),
-      rooms: makeRandomNumbersFileds(minNumberRooms, maxNumberRooms),
-      price: makeRandomNumbersFileds(minPrice, maxPrice),
-      type: chooseHouseType(houseTypes),
-      features: chooseRandomOfItems(features),
-      photos: chooseRandomOfItems(arrayPhotos),
-      address: makeAddress(addressLat, addressLng),
-      title: chooseTitle(arrayTitles),
+      checkin:     checkInOutTimes(arrayTimeCheckInOut),
+      checkout:    checkInOutTimes(arrayTimeCheckInOut),
+      guests:      makeRandomNumbersFileds(minNumberGuests, maxNumberGuests),
+      rooms:       makeRandomNumbersFileds(minNumberRooms, maxNumberRooms),
+      price:       makeRandomNumbersFileds(minPrice, maxPrice),
+      type:        chooseHouseType(houseTypes),
+      features:    chooseRandomOfItems(features),
+      photos:      chooseRandomOfItems(arrayPhotos),
+      address:     makeAddress(addressLat, addressLng),
+      title:       chooseTitle(arrayTitles),
       description: chooseDescription(arrayDescriptions),
     }
   };

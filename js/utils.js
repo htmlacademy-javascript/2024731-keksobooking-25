@@ -1,9 +1,9 @@
-const translateHouseType = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
+const TranslateHouseType = {
+  palace:   'Дворец',
+  flat:     'Квартира',
+  house:    'Дом',
   bungalow: 'Бунгало',
-  hotel: 'Отель'
+  hotel:    'Отель'
 };
 
 function getRandomFloat(min, max, decimalPlace) {
@@ -28,12 +28,12 @@ function shuffle(arr){
   return arr;
 }
 
-function makePluralOfRooms(obj) {
-  if (((obj === 1) || (obj % 10 === 1)) && (obj !== 11)) {
+function makePluralOfRooms(rooms) {
+  if (((rooms === 1) || (rooms % 10 === 1)) && (rooms !== 11)) {
 
     return 'комната';
   }
-  else if ((obj >= 2) && (obj <= 4)) {
+  else if ((rooms >= 2) && (rooms <= 4)) {
 
     return 'комнаты';
   }
@@ -45,6 +45,6 @@ function makePluralOfRooms(obj) {
 
 const getRandomInteger = (min, max) => (min < max) ? Math.round(Math.random() * (max - min) + min) : -1;
 
-const makePluralOfGuests = (obj) => (obj !== 1) ? 'гостей' : 'гостя';
+const makePluralOfGuests = (guests) => (guests !== 1) ? 'гостей' : 'гостя';
 
-export {getRandomInteger, getRandomFloat, shuffle, translateHouseType, makePluralOfRooms, makePluralOfGuests};
+export {getRandomInteger, getRandomFloat, shuffle, TranslateHouseType, makePluralOfRooms, makePluralOfGuests};
