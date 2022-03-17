@@ -1,4 +1,9 @@
-const translateHouseType = {
+const oneRoom = 1;
+const pluralWithOne = 11;
+const genitiveCaseMin = 2;
+const genitiveCaseMax = 4;
+
+const TranslateHouseType = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -27,13 +32,12 @@ function shuffle(arr){
 
   return arr;
 }
-
-function makePluralOfRooms(obj) {
-  if (((obj === 1) || (obj % 10 === 1)) && (obj !== 11)) {
+function makePluralOfRooms(rooms) {
+  if (((rooms === oneRoom) || (rooms % 10 === oneRoom)) && (rooms !== pluralWithOne)) {
 
     return 'комната';
   }
-  else if ((obj >= 2) && (obj <= 4)) {
+  else if ((rooms >= genitiveCaseMin) && (rooms <= genitiveCaseMax)) {
 
     return 'комнаты';
   }
@@ -45,6 +49,6 @@ function makePluralOfRooms(obj) {
 
 const getRandomInteger = (min, max) => (min < max) ? Math.round(Math.random() * (max - min) + min) : -1;
 
-const makePluralOfGuests = (obj) => (obj !== 1) ? 'гостей' : 'гостя';
+const makePluralOfGuests = (guests) => (guests !== 1) ? 'гостей' : 'гостя';
 
-export {getRandomInteger, getRandomFloat, shuffle, translateHouseType, makePluralOfRooms, makePluralOfGuests};
+export {getRandomInteger, getRandomFloat, shuffle, TranslateHouseType, makePluralOfRooms, makePluralOfGuests};

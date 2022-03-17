@@ -1,9 +1,14 @@
 import {makeTestData} from './make-test-data.js';
+import {putDataToPopup, clonePopupForm} from './form-filter.js';
 
+const mapContainer = document.querySelector('#map-canvas');
 const maxDataEntries = 10;
-const testData = [];
+const testDatas = [];
 
 for (let i = 0; i < maxDataEntries; i++) {
-  testData[i] = makeTestData(i);
+  testDatas[i] = makeTestData(i);
 }
+
+putDataToPopup(testDatas[0]);
+mapContainer.append(clonePopupForm);
 
