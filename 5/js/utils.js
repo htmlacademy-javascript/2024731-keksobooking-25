@@ -1,9 +1,14 @@
+const oneRoom = 1;
+const pluralWithOne = 11;
+const genitiveCaseMin = 2;
+const genitiveCaseMax = 4;
+
 const TranslateHouseType = {
-  palace:   'Дворец',
-  flat:     'Квартира',
-  house:    'Дом',
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
   bungalow: 'Бунгало',
-  hotel:    'Отель'
+  hotel: 'Отель'
 };
 
 function getRandomFloat(min, max, decimalPlace) {
@@ -27,13 +32,12 @@ function shuffle(arr){
 
   return arr;
 }
-
 function makePluralOfRooms(rooms) {
-  if (((rooms === 1) || (rooms % 10 === 1)) && (rooms !== 11)) {
+  if (((rooms === oneRoom) || (rooms % 10 === oneRoom)) && (rooms !== pluralWithOne)) {
 
     return 'комната';
   }
-  else if ((rooms >= 2) && (rooms <= 4)) {
+  else if ((rooms >= genitiveCaseMin) && (rooms <= genitiveCaseMax)) {
 
     return 'комнаты';
   }
