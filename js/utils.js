@@ -4,11 +4,11 @@ const genitiveCaseMin = 2;
 const genitiveCaseMax = 4;
 
 const TranslateHouseType = {
-  palace:   'Дворец',
-  flat:     'Квартира',
-  house:    'Дом',
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
   bungalow: 'Бунгало',
-  hotel:    'Отель'
+  hotel: 'Отель'
 };
 
 function getRandomFloat(min, max, decimalPlace) {
