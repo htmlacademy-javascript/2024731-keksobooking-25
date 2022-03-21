@@ -1036,3 +1036,8 @@ fieldset {
   border: 1px solid rgb(11, 6, 59);
 
 }
+
+.ad-form__error-text {
+  font-size: 0.85em;
+  color: #c00;
+}
