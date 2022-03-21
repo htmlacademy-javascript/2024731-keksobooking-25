@@ -1,5 +1,7 @@
 import {makeTestData} from './make-test-data.js';
 import {putDataToPopup, clonePopupForm} from './form-filter.js';
+import './validate-form.js';
+import './infor-windows.js';
 
 const mapContainer = document.querySelector('#map-canvas');
 const maxDataEntries = 10;
