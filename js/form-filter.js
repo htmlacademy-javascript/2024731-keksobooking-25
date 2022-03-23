@@ -1,7 +1,12 @@
 import {TranslateHouseType, makePluralOfRooms, makePluralOfGuests} from './utils.js';
+import {disableSlider, enableSlider} from './slider.js';
 
-const templatePopup = document.querySelector('#card');
-const clonePopupForm = templatePopup.content.cloneNode(true);
+const templatePopup = document.querySelector('#card').content.querySelector('.popup');
+let clonePopupForm = templatePopup.cloneNode(true);
+const inputForm = document.querySelector('.ad-form');
+const inputFormFields = inputForm.querySelectorAll('.ad-form__element');
+const mapFilter = document.querySelector('.map__filters-container');
+const mapFilterSelects = mapFilter.querySelectorAll('.map__filter');
 
 const insertDataToField = (classField) => clonePopupForm.querySelector(classField);
 
@@ -63,6 +68,7 @@ function insertPopupAvatar(advertData) {
 }
 
 function putDataToPopup (advertData) {
+  clonePopupForm = templatePopup.cloneNode(true);
   const offerForPopup = advertData.offer.title;
   const priceForPopup = `${advertData.offer.price} <span>₽/ночь</span>`;
   const addressForPopup = `${advertData.offer.address}`;
@@ -80,7 +86,36 @@ function putDataToPopup (advertData) {
   insertDataToField('.popup__text--time').textContent = timeForPopup;
   insertDataToField('.popup__type').textContent = TranslateHouseType[advertData.offer.type];
   insertDataToField('.popup__text--capacity').textContent = capacityForPopup;
+
+  return clonePopupForm;
 }
 
-export {putDataToPopup, clonePopupForm};
+function disabledFiltersInputs() {
+  inputFormFields.forEach((inputFormField) => {
+    inputFormField.classList.add('ad-form--disabled');
+  });
+  mapFilter.classList.add('map__filters--disabled');
+  mapFilterSelects.forEach((mapFilterSelect) => {
+    mapFilterSelect.setAttribute('disabled', true);
+  });
+  disableSlider();
+}
+
+function enabledFiltersInputs() {
+  inputFormFields.forEach((inputFormField) => {
+    inputFormField.classList.remove('ad-form--disabled');
+  });
+  mapFilter.classList.remove('map__filters--disabled');
+  mapFilterSelects.forEach((mapFilterSelect) => {
+    mapFilterSelect.removeAttribute('disabled');
+  });
+  enableSlider();
+}
+
+const placeCoordinatesToForm = (coord) => {
+  const addressInput = document.getElementById ('address');
+  addressInput.setAttribute('placeholder', `${coord['lat'].toFixed(5)}, ${coord['lng'].toFixed(5)}`);
+};
+
+export {putDataToPopup, disabledFiltersInputs, enabledFiltersInputs, placeCoordinatesToForm, clonePopupForm};
 

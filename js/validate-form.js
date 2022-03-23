@@ -131,3 +131,4 @@ advertForm.addEventListener('submit', (evt) => {
   }
 });
 
+export {priceField};
