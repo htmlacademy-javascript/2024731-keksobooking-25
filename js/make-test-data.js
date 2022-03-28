@@ -48,7 +48,7 @@ const makeRandomNumbersFileds = (min, max) => getRandomInteger(min, max);
 
 const chooseHouseType = (houseType) => houseType[getRandomInteger(minBorderOfHouseTypesArray, houseType.length-1)];
 
-const chooseRandomOfItems = (featuresType) => featuresType.slice(getRandomInteger(1, featuresType.length-1));
+const chooseRandomOfItems = (featuresType) => featuresType.slice(getRandomInteger(0, featuresType.length-1));
 
 const makeAddress = (coordLat, coordLng) => `${coordLat}, ${coordLng}`;
 
