@@ -1,35 +1,50 @@
+import {enableSubmitBtn} from './forms.js';
 
 const documentBody = document.querySelector('body');
 const errorMsgTemplate = document.querySelector('#error').content;
 const errorMsg = errorMsgTemplate.querySelector('div');
 const successMsgTemplate = document.querySelector('#success').content;
 const successMsg = successMsgTemplate.querySelector('div');
+const errorServerMsgTemplate = document.querySelector('#server').content;
+const errorServerMsg = errorServerMsgTemplate.querySelector('div');
 
-function openSuccessMsgWindow() {
-  documentBody.insertAdjacentElement('beforeend', successMsg);
+function removeListener(currentElement, onMouseCb, onKeyCb) {
+  currentElement.removeEventListener('click', onMouseCb);
+  document.removeEventListener('keydown', onKeyCb);
 }
 
-function openErrorMsgWindow() {
-  documentBody.insertAdjacentElement('beforeend', errorMsg);
-}
+function showMsgWindow(element) {
+  const currentMsg = documentBody.insertAdjacentElement('beforeend', element);
+  currentMsg.addEventListener('click', onClick);
+  document.addEventListener('keydown', onKeydown);
+  function onClick (evt) {
+    const target = evt.target;
+    if (target.classList.contains('success')) {
+      documentBody.querySelector('.success').remove();
+    }
+    else if (target.classList.contains('error__button')) {
+      documentBody.querySelector('.error').remove();
+    }
+    removeListener(element, onClick, onKeydown);
+    enableSubmitBtn();
+  }
 
-function closeSuccessWindow(event) {
-  if(event.target.classList.contains('success')) {
-    const successWindow = document.querySelector('.success');
-    successWindow.remove();
+  function onKeydown (evt) {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      if (currentMsg.classList.contains('success')) {
+        documentBody.querySelector('.success').remove();
+      }
+      else {
+        documentBody.querySelector('.error').remove();
+      }
+      removeListener(element, onClick, onKeydown);
+      enableSubmitBtn();
+    }
   }
 }
 
-function closeErrorWindow(event) {
-  if(event.target.classList.contains('error__button')) {
-    const errorWindow = document.querySelector('.error');
-    errorWindow.remove();
-  }
-}
+const showSuccessWindow = () => showMsgWindow(successMsg);
+const showErrorWindow = () => showMsgWindow(errorMsg);
+const showErrorServerWindow = () => showMsgWindow(errorServerMsg);
 
-documentBody.addEventListener('click', (evt) => {
-  closeErrorWindow(evt);
-  closeSuccessWindow(evt);
-});
-
-export {openErrorMsgWindow, openSuccessMsgWindow};
+export {showErrorWindow, showSuccessWindow, showErrorServerWindow};

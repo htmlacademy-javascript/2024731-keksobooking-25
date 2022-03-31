@@ -1,5 +1,8 @@
 import {makePluralOfRooms, makePluralOfGuests} from './utils.js';
-import {openErrorMsgWindow, openSuccessMsgWindow} from './infor-windows.js';
+import {disableSubmitBtn, enableSubmitBtn} from './forms.js';
+import {sendData} from './api.js';
+import {setDefaultStateMap, resetCurrentStateMap} from './map.js';
+import {setDefaultStateSlider} from './slider.js';
 
 const typeOptions = {
   'palace': 10000,
@@ -16,9 +19,9 @@ const roomOptions = {
   '100': 0
 };
 
-const minSybolsTitle = 30;
-const maxSybolsTitle = 100;
-const maxPrice = 100000;
+const MIN_SYMBOLS_COUNT = 30;
+const MAX_SYMBOLS_COUNT = 100;
+const MAX_PRICE = 100000;
 const advertForm = document.querySelector('.ad-form');
 const priceField = advertForm.querySelector('#price');
 const titleField = advertForm.querySelector('#title');
@@ -28,6 +31,8 @@ const typeField = advertForm.querySelector('[name="type"]');
 const roomsField = advertForm.querySelector('[name="rooms"]');
 const capacityField = advertForm.querySelector('[name="capacity"]');
 const errorMsgTitle = 'Заголовок должен быть от 30 до 100 символов';
+const mainForm = document.querySelector('.ad-form');
+const resetBtn = document.querySelector('.ad-form__reset');
 
 const pristine = new Pristine(advertForm, {
   classTo: 'ad-form__element',
@@ -61,12 +66,12 @@ function makeValidator(elementField, validateFunction, errorMessage) {
 
 function validateTitle(value) {
 
-  return value.length >= minSybolsTitle && value.length <= maxSybolsTitle;
+  return value.length >= MIN_SYMBOLS_COUNT && value.length <= MAX_SYMBOLS_COUNT;
 }
 
 function validatePrice(value) {
 
-  return value >= typeOptions[typeField.value] && value <= maxPrice;
+  return value >= typeOptions[typeField.value] && value <= MAX_PRICE;
 }
 
 function removeErrorMsg(classElement) {
@@ -120,15 +125,29 @@ typeField.addEventListener('change', () => {
   priceField.placeholder=`${typeOptions[typeField.value]}`;
 });
 
-advertForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if (!isValid) {
-    openErrorMsgWindow();
-  }
-  else {
-    openSuccessMsgWindow();
-  }
+function resetToDefault() {
+  mainForm.reset();
+  resetCurrentStateMap();
+  setDefaultStateSlider();
+  disableSubmitBtn();
+  setDefaultStateMap();
+}
+
+function setUserFormSubmit(onSuccess, onError) {
+  advertForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+      sendData(formData, onSuccess, onError);
+      resetToDefault();
+    }
+  });
+}
+
+resetBtn.addEventListener('click', () => {
+  resetToDefault();
+  enableSubmitBtn();
 });
 
-export {priceField};
+export {priceField, setUserFormSubmit, resetToDefault};

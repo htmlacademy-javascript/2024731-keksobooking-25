@@ -1,7 +1,7 @@
-const oneRoom = 1;
-const pluralWithOne = 11;
-const genitiveCaseMin = 2;
-const genitiveCaseMax = 4;
+const ONE_ROOM = 1;
+const TENS_AND_ONE_ROOMS = 11;
+const GENITIVE_CASE_MIN = 2;
+const GENITIVE_CASE_MAX = 4;
 
 const TranslateHouseType = {
   palace: 'Дворец',
@@ -11,33 +11,12 @@ const TranslateHouseType = {
   hotel: 'Отель'
 };
 
-function getRandomFloat(min, max, decimalPlace) {
-  if (min < max) {
-    const randomNumber = Math.random() * (max - min) + min;
-    const precision = 10 ** decimalPlace;
-
-    return Math.round(randomNumber * precision) / precision;
-  }
-
-  return -1;
-}
-
-function shuffle(arr){
-  for(let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = arr[j];
-    arr[j] = arr[i];
-    arr[i] = temp;
-  }
-
-  return arr;
-}
 function makePluralOfRooms(rooms) {
-  if (((rooms === oneRoom) || (rooms % 10 === oneRoom)) && (rooms !== pluralWithOne)) {
+  if (((rooms === ONE_ROOM) || (rooms % 10 === ONE_ROOM)) && (rooms !== TENS_AND_ONE_ROOMS)) {
 
     return 'комната';
   }
-  else if ((rooms >= genitiveCaseMin) && (rooms <= genitiveCaseMax)) {
+  else if ((rooms >= GENITIVE_CASE_MIN) && (rooms <= GENITIVE_CASE_MAX)) {
 
     return 'комнаты';
   }
@@ -47,8 +26,6 @@ function makePluralOfRooms(rooms) {
   }
 }
 
-const getRandomInteger = (min, max) => (min < max) ? Math.round(Math.random() * (max - min) + min) : -1;
-
 const makePluralOfGuests = (guests) => (guests !== 1) ? 'гостей' : 'гостя';
 
-export {getRandomInteger, getRandomFloat, shuffle, TranslateHouseType, makePluralOfRooms, makePluralOfGuests};
+export {TranslateHouseType, makePluralOfRooms, makePluralOfGuests};
