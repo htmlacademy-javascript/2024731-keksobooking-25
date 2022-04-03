@@ -1,8 +1,9 @@
 import {makePluralOfRooms, makePluralOfGuests} from './utils.js';
 import {disableSubmitBtn, enableSubmitBtn} from './forms.js';
 import {sendData} from './api.js';
-import {setDefaultStateMap, resetCurrentStateMap} from './map.js';
+import {setDefaultStateMap, resetCurrentStateMap, removeMarker} from './map.js';
 import {setDefaultStateSlider} from './slider.js';
+import {resetFilter} from './form-filter.js';
 
 const typeOptions = {
   'palace': 10000,
@@ -127,10 +128,12 @@ typeField.addEventListener('change', () => {
 
 function resetToDefault() {
   mainForm.reset();
+  removeMarker();
   resetCurrentStateMap();
   setDefaultStateSlider();
   disableSubmitBtn();
   setDefaultStateMap();
+  resetFilter();
 }
 
 function setUserFormSubmit(onSuccess, onError) {

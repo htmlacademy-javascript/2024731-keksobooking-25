@@ -1,12 +1,24 @@
-import {TranslateHouseType, makePluralOfRooms, makePluralOfGuests} from './utils.js';
+import {TranslateHouseType, makePluralOfRooms, makePluralOfGuests, debounce} from './utils.js';
 import {disableSlider, enableSlider} from './slider.js';
+import {createPin} from './map.js';
 
+const FILTER_DEFAULT_TYPE = 'any';
+const FILTER_DELAY = 500;
+const NUM_DIGIT = 5;
+const LOW_PRICE = 10000;
+const HIGH_PRICE = 50000;
 const templatePopup = document.querySelector('#card').content.querySelector('.popup');
-let clonePopupForm = templatePopup.cloneNode(true);
 const inputForm = document.querySelector('.ad-form');
 const inputFormFields = inputForm.querySelectorAll('.ad-form__element');
 const mapFilter = document.querySelector('.map__filters-container');
 const mapFilterSelects = mapFilter.querySelectorAll('.map__filter');
+const mapFilterFeatures = mapFilter.querySelector('.map__features');
+const housingType = mapFilter.querySelector('#housing-type');
+const housingPrice = mapFilter.querySelector('#housing-price');
+const housingRooms = mapFilter.querySelector('#housing-rooms');
+const housingGuests = mapFilter.querySelector('#housing-guests');
+const formFilters = mapFilter.querySelector('.map__filters');
+let clonePopupForm = templatePopup.cloneNode(true);
 
 const insertDataToField = (classField) => clonePopupForm.querySelector(classField);
 
@@ -112,10 +124,80 @@ function enabledFiltersInputs() {
   enableSlider();
 }
 
-const placeCoordinatesToForm = (coord) => {
+function placeCoordinatesToForm(coord) {
   const addressInput = document.getElementById ('address');
-  addressInput.setAttribute('placeholder', `${coord['lat'].toFixed(5)}, ${coord['lng'].toFixed(5)}`);
-};
+  addressInput.setAttribute('placeholder', `${coord['lat'].toFixed(NUM_DIGIT)}, ${coord['lng'].toFixed(NUM_DIGIT)}`);
+}
 
-export {putDataToPopup, disabledFiltersInputs, enabledFiltersInputs, placeCoordinatesToForm, clonePopupForm};
+const defaultCheck = (element) => element.value === FILTER_DEFAULT_TYPE;
+
+function filterType(advertItems, element) {
+  if (!defaultCheck(element)) {
+    return advertItems.offer.type === element.value;
+  }
+  return true;
+}
+
+function filterPrice(advertItems, element) {
+  if (defaultCheck(element)) {
+    return true;
+  }
+  if (element.value === 'low') {
+    return advertItems.offer.price < LOW_PRICE;
+  }
+  if (element.value === 'middle') {
+    return advertItems.offer.price >= LOW_PRICE && advertItems.offer.price < HIGH_PRICE;
+  }
+  if (element.value === 'high') {
+    return advertItems.offer.price >= HIGH_PRICE;
+  }
+  return false;
+}
+
+function filterFeatures(advertItems) {
+  const checkedFeatures = mapFilterFeatures.querySelectorAll('.map__checkbox:checked');
+  for (let i = 0; i < checkedFeatures.length; i++) {
+    if (advertItems.offer.features && advertItems.offer.features.includes(checkedFeatures[i].value)) {
+      continue;
+    }
+    return false;
+  }
+  return true;
+}
+
+function filterRooms(advertItems, element) {
+  if (!defaultCheck(element)) {
+    return Number(element.value) === advertItems.offer.rooms;
+  }
+  return true;
+}
+
+function filterGuests(advertItems, element) {
+  if (!defaultCheck(element)) {
+    return element.value <= advertItems.offer.guests;
+  }
+  return true;
+}
+
+const allFilters = (similarAdverts) =>
+  similarAdverts.filter((advertItems) => (
+    filterType(advertItems, housingType) &&
+    filterPrice(advertItems, housingPrice) &&
+    filterRooms(advertItems, housingRooms) &&
+    filterGuests(advertItems, housingGuests) &&
+    filterFeatures(advertItems)
+  ));
+
+const onFilterChange = (similarAdverts) =>
+  debounce(() => {
+    const filteredAdds = allFilters(similarAdverts);
+    createPin(filteredAdds);
+  }, FILTER_DELAY);
+
+const setFilter = (similarAdverts) =>
+  mapFilter.addEventListener('change', onFilterChange(similarAdverts));
+
+const resetFilter = () => formFilters.reset();
+
+export {putDataToPopup, disabledFiltersInputs, enabledFiltersInputs, placeCoordinatesToForm, setFilter, resetFilter, clonePopupForm};
 

@@ -2,9 +2,8 @@ import {disableMapFilter, enableMapFilter} from './forms.js';
 
 const URL_IN_DATA = 'https://25.javascript.pages.academy/keksobooking/data';
 const URL_OUT_DATA = 'https://25.javascript.pages.academy/keksobooking';
-const COUNT_ADVERTS = 10;
 
-function getData(makePins, onFail) {
+function getData(onSucess, onFail) {
   fetch(URL_IN_DATA)
     .then((response) => {
       if (response.ok) {
@@ -13,7 +12,7 @@ function getData(makePins, onFail) {
       }
     })
     .then((response) => response.json())
-    .then((data) => makePins(data.slice(0, COUNT_ADVERTS)))
+    .then((data) => onSucess(data))
     .catch(() => {
       disableMapFilter();
       onFail();
