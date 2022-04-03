@@ -1,6 +1,7 @@
 import {TranslateHouseType, makePluralOfRooms, makePluralOfGuests} from './utils.js';
 import {disableSlider, enableSlider} from './slider.js';
 
+const NUM_DIGIT = 5;
 const templatePopup = document.querySelector('#card').content.querySelector('.popup');
 let clonePopupForm = templatePopup.cloneNode(true);
 const inputForm = document.querySelector('.ad-form');
@@ -36,7 +37,7 @@ function insertPopupPhotos(advertData) {
   let startPosition = insertDataToField('.popup__photos');
   let nextImage = insertDataToField('.popup__photo');
   if (advertData.offer.photos !== undefined) {
-    for(let i = 0; i <= advertData.offer.photos.length-1; i++) {
+    for(let i = 0; i <= advertData.offer.photos.length - 1; i++) {
       nextImage.src = advertData.offer.photos[i];
       startPosition.after(nextImage);
       startPosition = nextImage;
@@ -125,7 +126,7 @@ function enabledFiltersInputs() {
 
 function placeCoordinatesToForm(coord) {
   const addressInput = document.getElementById ('address');
-  addressInput.value = `${coord['lat'].toFixed(5)}, ${coord['lng'].toFixed(5)}`;
+  addressInput.value = `${coord['lat'].toFixed(NUM_DIGIT)}, ${coord['lng'].toFixed(NUM_DIGIT)}`;
 }
 
 function disableSubmitBtn() {
