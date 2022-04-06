@@ -8,15 +8,16 @@ const successMsg = successMsgTemplate.querySelector('div');
 const errorServerMsgTemplate = document.querySelector('#server').content;
 const errorServerMsg = errorServerMsgTemplate.querySelector('div');
 
-function removeListener(currentElement, onMouseCb, onKeyCb) {
-  currentElement.removeEventListener('click', onMouseCb);
-  document.removeEventListener('keydown', onKeyCb);
+function removeListener(currentElement, onMouseCallback, onKeyCallback) {
+  currentElement.removeEventListener('click', onMouseCallback);
+  document.removeEventListener('keydown', onKeyCallback);
 }
 
 function showMsgWindow(element) {
   const currentMsg = documentBody.insertAdjacentElement('beforeend', element);
   currentMsg.addEventListener('click', onClick);
   document.addEventListener('keydown', onKeydown);
+
   function onClick (evt) {
     const target = evt.target;
     if (target.classList.contains('success')) {

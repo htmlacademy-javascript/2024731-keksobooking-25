@@ -1,4 +1,6 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const IMG_DEFAULT = 'img/muffin-grey.svg';
+
 const avatarChooser = document.querySelector('#avatar');
 const previewAvatar = document.querySelector('.setup-user-pic');
 const houseChooser = document.querySelector('#images');
@@ -28,5 +30,21 @@ function chooseFile(element, view) {
   }
 }
 
+function setToDefaultHouseImgBox() {
+  const boxImages = document.querySelectorAll('.ad-form__photo');
+  if (boxImages.length > 1) {
+    for (let i = 0; i < boxImages.length - 1; i++) {
+      boxImages[i].remove();
+    }
+  }
+}
+
+function resetPhotoFormsToDefault() {
+  previewAvatar.src = IMG_DEFAULT;
+  setToDefaultHouseImgBox();
+}
+
 avatarChooser.addEventListener('change', () => chooseFile(avatarChooser, previewAvatar));
 houseChooser.addEventListener('change', () => chooseFile(houseChooser, previewHouse));
+
+export {resetPhotoFormsToDefault};
