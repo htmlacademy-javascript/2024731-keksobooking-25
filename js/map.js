@@ -1,6 +1,5 @@
-import {placeCoordinatesToForm, enabledFiltersInputs} from './forms.js';
+import {enabledFiltersInputs, putDataToPopup} from './forms.js';
 import {showErrorServerWindow} from './infor-windows.js';
-import {putDataToPopup} from './forms.js';
 import {getData} from './api.js';
 
 const COUNT_ADVERTS = 10;
@@ -10,6 +9,7 @@ const MAIN_ICON_SIZES = [52, 52];
 const MAIN_ICON_ANCHOR_COORDINATES = [26, 52];
 const SMALL_ICON_SIZES = [40, 40];
 const SMALL_ICON_ANCHOR_COORDINATES = [20, 40];
+const NUM_DIGIT = 5;
 
 const URL_OPEN_STREET = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const URL_OPEN_STREET_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -40,6 +40,11 @@ const markerProperties = {
 const pinProperties = {
   icon: pinIcon
 };
+
+function placeCoordinatesToForm(coord) {
+  const addressInput = document.getElementById ('address');
+  addressInput.value = `${coord['lat'].toFixed(NUM_DIGIT)}, ${coord['lng'].toFixed(NUM_DIGIT)}`;
+}
 
 let marker = L.marker(startCoordinates, markerProperties);
 const markerGroup = L.layerGroup();
@@ -81,6 +86,7 @@ function setDefaultStateMap() {
   marker = L.marker(startCoordinates, markerProperties);
   markerGroup.addTo(map);
   getData(createPin, showErrorServerWindow);
+  placeCoordinatesToForm(startCoordinates);
   marker.addTo(map);
   getCoordMarker();
 }

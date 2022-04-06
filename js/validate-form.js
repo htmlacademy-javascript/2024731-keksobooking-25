@@ -3,7 +3,8 @@ import {disableSubmitBtn, enableSubmitBtn} from './forms.js';
 import {sendData} from './api.js';
 import {setDefaultStateMap, resetCurrentStateMap, removeMarker} from './map.js';
 import {setDefaultStateSlider} from './slider.js';
-import {resetFilter} from './form-filter.js';
+import {resetFilter} from './filter.js';
+import {resetPhotoFormsToDefault} from './load-photo.js';
 
 const typeOptions = {
   'palace': 10000,
@@ -23,6 +24,7 @@ const roomOptions = {
 const MIN_SYMBOLS_COUNT = 30;
 const MAX_SYMBOLS_COUNT = 100;
 const MAX_PRICE = 100000;
+
 const advertForm = document.querySelector('.ad-form');
 const priceField = advertForm.querySelector('#price');
 const titleField = advertForm.querySelector('#title');
@@ -54,7 +56,7 @@ function makeErrorMsgRooms() {
 
   if (!(roomOptions[roomsField.value]) || !(capacityRoom)) {
 
-    return '100 комат не для гостей';
+    return '100 комнат не для гостей';
   }
 
   return `${roomsField.value} ${makePluralOfRooms(numberOfRoom)}\
@@ -134,6 +136,7 @@ function resetToDefault() {
   disableSubmitBtn();
   setDefaultStateMap();
   resetFilter();
+  resetPhotoFormsToDefault();
 }
 
 function setUserFormSubmit(onSuccess, onError) {
@@ -153,4 +156,4 @@ resetBtn.addEventListener('click', () => {
   enableSubmitBtn();
 });
 
-export {priceField, setUserFormSubmit, resetToDefault};
+export {priceField, setUserFormSubmit};

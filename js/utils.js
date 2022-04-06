@@ -3,7 +3,7 @@ const TENS_AND_ONE_ROOMS = 11;
 const GENITIVE_CASE_MIN = 2;
 const GENITIVE_CASE_MAX = 4;
 
-const TranslateHouseType = {
+const translateHouseType = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -36,4 +36,4 @@ const debounce = (fn, wait) => {
   };
 };
 
-export {TranslateHouseType, makePluralOfRooms, makePluralOfGuests, debounce};
+export {translateHouseType, makePluralOfRooms, makePluralOfGuests, debounce};

@@ -12,7 +12,7 @@ function getData(onSucess, onFail) {
       }
     })
     .then((response) => response.json())
-    .then((data) => onSucess(data))
+    .then(onSucess)
     .catch(() => {
       disableMapFilter();
       onFail();

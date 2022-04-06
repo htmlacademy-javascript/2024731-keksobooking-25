@@ -1,7 +1,6 @@
-import {TranslateHouseType, makePluralOfRooms, makePluralOfGuests} from './utils.js';
+import {translateHouseType, makePluralOfRooms, makePluralOfGuests} from './utils.js';
 import {disableSlider, enableSlider} from './slider.js';
 
-const NUM_DIGIT = 5;
 const templatePopup = document.querySelector('#card').content.querySelector('.popup');
 let clonePopupForm = templatePopup.cloneNode(true);
 const inputForm = document.querySelector('.ad-form');
@@ -86,7 +85,7 @@ function putDataToPopup (advertData) {
   insertDataToField('.popup__text--price').innerHTML = priceForPopup;
   insertDataToField('.popup__text--address').textContent = addressForPopup;
   insertDataToField('.popup__text--time').textContent = timeForPopup;
-  insertDataToField('.popup__type').textContent = TranslateHouseType[advertData.offer.type];
+  insertDataToField('.popup__type').textContent = translateHouseType[advertData.offer.type];
   insertDataToField('.popup__text--capacity').textContent = capacityForPopup;
 
   return clonePopupForm;
@@ -124,11 +123,6 @@ function enabledFiltersInputs() {
   enableSlider();
 }
 
-function placeCoordinatesToForm(coord) {
-  const addressInput = document.getElementById ('address');
-  addressInput.value = `${coord['lat'].toFixed(NUM_DIGIT)}, ${coord['lng'].toFixed(NUM_DIGIT)}`;
-}
-
 function disableSubmitBtn() {
   submitBtn.classList.add('ad-form__submit--disabled');
   submitBtn.setAttribute('disabled', true);
@@ -139,5 +133,5 @@ function enableSubmitBtn() {
   submitBtn.removeAttribute('disabled');
 }
 
-export {putDataToPopup, disabledFiltersInputs, disableMapFilter, enableMapFilter, enabledFiltersInputs, placeCoordinatesToForm, disableSubmitBtn, enableSubmitBtn, clonePopupForm};
+export {putDataToPopup, disabledFiltersInputs, disableMapFilter, enableMapFilter, enabledFiltersInputs, disableSubmitBtn, enableSubmitBtn, clonePopupForm};
 
