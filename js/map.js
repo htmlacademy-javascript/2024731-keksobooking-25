@@ -1,14 +1,15 @@
-import {placeCoordinatesToForm, enabledFiltersInputs} from './forms.js';
+import {enabledFiltersInputs, putDataToPopup} from './forms.js';
 import {showErrorServerWindow} from './infor-windows.js';
-import {putDataToPopup} from './forms.js';
 import {getData} from './api.js';
 
+const COUNT_ADVERTS = 10;
 const MAIN_ICON_IMG = './img/main-pin.svg';
 const SMALL_ICON_IMG = './img/pin.svg';
 const MAIN_ICON_SIZES = [52, 52];
 const MAIN_ICON_ANCHOR_COORDINATES = [26, 52];
 const SMALL_ICON_SIZES = [40, 40];
 const SMALL_ICON_ANCHOR_COORDINATES = [20, 40];
+const NUM_DIGIT = 5;
 
 const URL_OPEN_STREET = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const URL_OPEN_STREET_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -40,6 +41,11 @@ const pinProperties = {
   icon: pinIcon
 };
 
+function placeCoordinatesToForm(coord) {
+  const addressInput = document.getElementById ('address');
+  addressInput.value = `${coord['lat'].toFixed(NUM_DIGIT)}, ${coord['lng'].toFixed(NUM_DIGIT)}`;
+}
+
 let marker = L.marker(startCoordinates, markerProperties);
 const markerGroup = L.layerGroup();
 const map = L.map('map-canvas');
@@ -47,10 +53,12 @@ const map = L.map('map-canvas');
 function enableStartCondition(defaultCoordinates) {
   enabledFiltersInputs();
   placeCoordinatesToForm(defaultCoordinates);
-  marker.addTo(markerGroup);
+  marker.addTo(map);
 }
 
-function createPin(pinDatas) {
+function createPin(Data) {
+  resetCurrentStateMap();
+  const pinDatas = Data.slice(0, COUNT_ADVERTS);
   pinDatas.forEach((pinData) => {
     const pin = L.marker(pinData.location, pinProperties);
     pin.addTo(markerGroup).bindPopup(putDataToPopup(pinData));
@@ -78,7 +86,8 @@ function setDefaultStateMap() {
   marker = L.marker(startCoordinates, markerProperties);
   markerGroup.addTo(map);
   getData(createPin, showErrorServerWindow);
-  marker.addTo(markerGroup);
+  placeCoordinatesToForm(startCoordinates);
+  marker.addTo(map);
   getCoordMarker();
 }
 
@@ -86,4 +95,6 @@ function resetCurrentStateMap() {
   markerGroup.clearLayers();
 }
 
-export {setMap, setDefaultStateMap, resetCurrentStateMap};
+const removeMarker = () => marker.remove();
+
+export {setMap, setDefaultStateMap, resetCurrentStateMap, createPin, removeMarker};

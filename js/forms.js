@@ -1,4 +1,4 @@
-import {TranslateHouseType, makePluralOfRooms, makePluralOfGuests} from './utils.js';
+import {translateHouseType, makePluralOfRooms, makePluralOfGuests} from './utils.js';
 import {disableSlider, enableSlider} from './slider.js';
 
 const templatePopup = document.querySelector('#card').content.querySelector('.popup');
@@ -36,7 +36,7 @@ function insertPopupPhotos(advertData) {
   let startPosition = insertDataToField('.popup__photos');
   let nextImage = insertDataToField('.popup__photo');
   if (advertData.offer.photos !== undefined) {
-    for(let i = 0; i <= advertData.offer.photos.length-1; i++) {
+    for(let i = 0; i <= advertData.offer.photos.length - 1; i++) {
       nextImage.src = advertData.offer.photos[i];
       startPosition.after(nextImage);
       startPosition = nextImage;
@@ -85,7 +85,7 @@ function putDataToPopup (advertData) {
   insertDataToField('.popup__text--price').innerHTML = priceForPopup;
   insertDataToField('.popup__text--address').textContent = addressForPopup;
   insertDataToField('.popup__text--time').textContent = timeForPopup;
-  insertDataToField('.popup__type').textContent = TranslateHouseType[advertData.offer.type];
+  insertDataToField('.popup__type').textContent = translateHouseType[advertData.offer.type];
   insertDataToField('.popup__text--capacity').textContent = capacityForPopup;
 
   return clonePopupForm;
@@ -123,11 +123,6 @@ function enabledFiltersInputs() {
   enableSlider();
 }
 
-function placeCoordinatesToForm(coord) {
-  const addressInput = document.getElementById ('address');
-  addressInput.value = `${coord['lat'].toFixed(5)}, ${coord['lng'].toFixed(5)}`;
-}
-
 function disableSubmitBtn() {
   submitBtn.classList.add('ad-form__submit--disabled');
   submitBtn.setAttribute('disabled', true);
@@ -138,5 +133,5 @@ function enableSubmitBtn() {
   submitBtn.removeAttribute('disabled');
 }
 
-export {putDataToPopup, disabledFiltersInputs, disableMapFilter, enableMapFilter, enabledFiltersInputs, placeCoordinatesToForm, disableSubmitBtn, enableSubmitBtn, clonePopupForm};
+export {putDataToPopup, disabledFiltersInputs, disableMapFilter, enableMapFilter, enabledFiltersInputs, disableSubmitBtn, enableSubmitBtn, clonePopupForm};
 

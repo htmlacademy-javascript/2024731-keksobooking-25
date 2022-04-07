@@ -3,7 +3,7 @@ const TENS_AND_ONE_ROOMS = 11;
 const GENITIVE_CASE_MIN = 2;
 const GENITIVE_CASE_MAX = 4;
 
-const TranslateHouseType = {
+const translateHouseType = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -28,4 +28,12 @@ function makePluralOfRooms(rooms) {
 
 const makePluralOfGuests = (guests) => (guests !== 1) ? 'гостей' : 'гостя';
 
-export {TranslateHouseType, makePluralOfRooms, makePluralOfGuests};
+const debounce = (fn, wait) => {
+  let timeout;
+  return function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, arguments), wait);
+  };
+};
+
+export {translateHouseType, makePluralOfRooms, makePluralOfGuests, debounce};
