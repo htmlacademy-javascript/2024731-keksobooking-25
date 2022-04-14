@@ -68,7 +68,7 @@ const Filter = {
   'features': (similarAdvert, value) => filterFeatures(similarAdvert, value),
 };
 
-const allFilters = (similarAdverts) => {
+const checkAllFilters = (similarAdverts) => {
   const formData = new FormData(formFilters);
   Object.keys(Filter).forEach((key) => {
     similarAdverts = similarAdverts.filter((similarAdvert) => Filter[key](similarAdvert, formData.getAll(key)));
@@ -78,7 +78,7 @@ const allFilters = (similarAdverts) => {
 
 const onFilterChange = (similarAdverts) =>
   debounce(() => {
-    const filteredAdds = allFilters(similarAdverts);
+    const filteredAdds = checkAllFilters(similarAdverts);
     createPin(filteredAdds);
   }, FILTER_DELAY);
 

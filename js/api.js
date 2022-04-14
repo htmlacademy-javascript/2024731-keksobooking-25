@@ -8,14 +8,13 @@ function getData(onSucess, onFail) {
     .then((response) => {
       if (response.ok) {
         enableMapFilter();
-        return response;
+        return response.json();
       }
     })
-    .then((response) => response.json())
     .then(onSucess)
     .catch(() => {
-      disableMapFilter();
       onFail();
+      disableMapFilter();
     });
 }
 
